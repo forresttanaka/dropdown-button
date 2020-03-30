@@ -17,8 +17,8 @@ import './dropdown_button.scss';
 
 
 const icons = {
-    chevronDown: style => <svg id="Chevron Down" data-name="Chevron Down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 249 124" style={style}><polygon points="249,57 124.5,124 0,57 0,0 124.5,67 249,0" /></svg>,
-    chevronUp: style => <svg id="Chevron Up" data-name="Chevron Up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 249 124" style={style}><polygon points="249,67 124.5,0 0,67 0,124 124.5,57 249,124" /></svg>,
+    chevronDown: <svg id="Chevron Down" data-name="Chevron Down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 249 124"><polygon points="249,57 124.5,124 0,57 0,0 124.5,67 249,0" /></svg>,
+    chevronUp: <svg id="Chevron Up" data-name="Chevron Up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 249 124"><polygon points="249,67 124.5,0 0,67 0,124 124.5,57 249,124" /></svg>,
 };
 
 
@@ -100,7 +100,6 @@ const useDropdownButton = (children) => {
 
 export const Immediate = ({ label, css, inline, children }) => {
     const [state, actions] = useDropdownButton(children);
-    console.log('IMM %o\n%o', state, actions);
 
     // Wrap each child in an <li> element, as they will be children of a <ul>.
     const wrappedChildren = React.Children.map(children, child => (
@@ -139,8 +138,6 @@ Immediate.propTypes = {
         PropTypes.number,
         PropTypes.element,
     ]).isRequired,
-    /** Called when user clicks label part of button */
-    execute: PropTypes.func.isRequired,
     /** CSS styles for the button itself */
     css: PropTypes.string,
     /** True to make this an inline component */
@@ -153,28 +150,40 @@ Immediate.defaultProps = {
 };
 
 
-export const Selected = ({ label, css, inline, children }) => {
+export const Selected = ({ labels, execute, css, inline, children }) => {
     const [state, actions] = useDropdownButton(children);
 
-    // Wrap each child in an <li> element, as they will be children of a <ul>.
-    const labelIds = [];
-    const wrappedChildren = React.Children.map(children, child => {
-        labelIds.push(child.props.id);
-        return <li>{React.cloneElement(child)}</li>
-    });
-    console.log(labelIds);
+    // Extract the id attributes of each of the child components.
+    const labelIds = React.Children.map(children, child => child.props.id);
+
+    // Currently selected dropdown item id; initialized to first item.
+    const [selection, setSelection] = React.useState(labelIds[0]);
+
+    // Called when the user clicks a dropdown item.
+    const handleItemClick = (e) => {
+        setSelection(e.target.id);
+    };
+
+    // Wrap each child in an <li> element, as they will be children of a <ul>. Add this component's
+    // click handler.
+    const wrappedChildren = React.Children.map(children, child => (
+        <li>{React.cloneElement(child, { onClick: handleItemClick })}</li>
+    ));
+
+    const handleExecute = () => {
+        execute(selection);
+    }
 
     return (
         <div className={`dropdown-button${css ? ` ${css}` : ''}`} style={inline ? { display: 'inline-flex' } : null}>
-            <button
-                className="btn"
-                onClick={actions.handleTrigger}
-                onKeyUp={actions.handleKey}
-                onMouseEnter={actions.handleMouseEnter}
-                onMouseLeave={actions.houseMouseLeave}
-            >
-                {label}
-            </button>
+            <div className="dropdown-button__composite" onMouseEnter={actions.handleMouseEnter} onMouseLeave={actions.houseMouseLeave}>
+                <button className="btn dropdown-button__composite--execute" onClick={handleExecute} onKeyUp={actions.handleKey}>
+                    {labels[selection]}
+                </button>
+                <button className="btn dropdown-button__composite--trigger" onClick={actions.handleTrigger}>
+                    {icons.chevronDown}
+                </button>
+            </div>
             {state.dropdownOpen ?
                 <ul
                     className="dropdown-button__content"
@@ -189,9 +198,9 @@ export const Selected = ({ label, css, inline, children }) => {
     );
 };
 
-Immediate.propTypes = {
+Selected.propTypes = {
     /** Labels to display in the execution part of button */
-    label: PropTypes.object.isRequired,
+    labels: PropTypes.object.isRequired,
     /** Called when user clicks execution part of button */
     execute: PropTypes.func.isRequired,
     /** CSS styles for the button itself */
@@ -200,7 +209,7 @@ Immediate.propTypes = {
     inline: PropTypes.bool,
 };
 
-Immediate.defaultProps = {
+Selected.defaultProps = {
     css: '',
     inline: false,
 };
