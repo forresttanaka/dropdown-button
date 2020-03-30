@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as DropdownButton from './dropdown_button';
+import './App.scss';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+const App = () => {
+    const handleButtonClick = (e) => {
+        console.log(e.target.id);
+    };
+
+    return (
+        <div className="App">
+            <DropdownButton.Immediate label="Hello">
+                <button id="item1" className="menu-item" onClick={handleButtonClick}>Item 1</button>
+                <button id="item2" className="menu-item" onClick={handleButtonClick}>Item 2</button>
+            </DropdownButton.Immediate>
+            <DropdownButton.Selected
+                labels={{
+                    item1: 'Item 1',
+                    item2: 'Item 2',
+                }}
+            >
+                <button id="item1" className="menu-item" onClick={handleButtonClick}>Item 1</button>
+                <button id="item2" className="menu-item" onClick={handleButtonClick}>Item 2</button>
+            </DropdownButton.Selected>
+        </div>
+    );
 }
 
 export default App;

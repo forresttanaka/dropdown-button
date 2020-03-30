@@ -1,0 +1,45 @@
+.dropdown-button {
+    position: relative;
+
+    > button {
+
+    }
+
+    @at-root #{&}__content {
+        position: absolute;
+        top: 100%;
+        margin: 4px 0;
+        padding: 0;
+        list-style: none;
+        border: 1px solid #c0c0c0;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.175);
+        z-index: 1000;
+
+        // Default link/button styling
+        > li {
+            display: block;
+
+            > button, > a {
+                display: block;
+                padding: 5px 20px;
+                font-size: 0.9rem;
+                font-weight: bold;
+                border: none;
+                border-radius: 0;
+                color: #444;
+                background-color: #fff;
+                border-top: 1px solid transparent;
+                border-right: none;
+                border-bottom: 1px solid transparent;
+                border-left: none;
+
+                &:hover {
+                    color: #fff;
+                    background-color: #4E7294;
+                    border-top: 1px solid #2b3f51;
+                    border-bottom: 1px solid #2b3f51;
+                }
+            }
+        }
+    }
+}
