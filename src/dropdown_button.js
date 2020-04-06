@@ -120,7 +120,6 @@ export const Immediate = ({ label, css, inline, children }) => {
             {state.dropdownOpen ?
                 <ul
                     className="dropdown-button__content"
-                    onClick={actions.closeDropdown}
                     onMouseEnter={actions.handleMouseEnter}
                     onMouseLeave={actions.houseMouseLeave}
                 >
@@ -187,7 +186,6 @@ export const Selected = ({ labels, execute, css, inline, children }) => {
             {state.dropdownOpen ?
                 <ul
                     className="dropdown-button__content"
-                    onClick={actions.closeDropdown}
                     onMouseEnter={actions.handleMouseEnter}
                     onMouseLeave={actions.houseMouseLeave}
                 >
