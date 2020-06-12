@@ -1,37 +1,62 @@
 .btn {
     display: flex;
     padding: 0 10px;
-    align-content: center;
+    align-items: center;
     border: 1px solid #c0c0c0;
     font-weight: bold;
     color: #fff;
     background-color: #4f689e;
     height: 29px;
-    font-size: 12px;
+    font-size: 13px;
     border-radius: 3px;
+
+    > svg {
+        display: block;
+        margin-left: 5px;
+        width: 8px;
+        height: 8px;
+        fill: white;
+    }
 }
 
 .dropdown-button {
     position: relative;
+    margin: 10px;
+    cursor: pointer;
 
-    @at-root #{&}__composite {
+    & > &__composite {
         display: flex;
         flex-wrap: nowrap;
+    }
 
-        @at-root #{&}--execute {
-            border-right: none;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
+    & > &__composite > &__composite-execute {
+        padding: 0 10px;
+        height: 29px;
+        background-color: #4f689e;
+        color: #fff;
+        font-weight: bold;
+        font-size: 13px;
+        margin: 0;
+        border: 1px solid #c0c0c0;
+        border-radius: 3px;
+        border-right: none;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
 
-        @at-root #{&}--trigger {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+    & > &__composite > &__composite-trigger {
+        margin: 0;
+        border: 1px solid #c0c0c0;
+        border-radius: 3px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        padding: 0 10px;
+        height: 29px;
+        background-color: #4f689e;
 
-            > svg {
-                width: 8px;
-                fill: white;
-            }
+        > svg {
+            width: 8px;
+            fill: white;
         }
     }
 
@@ -40,10 +65,16 @@
         top: 100%;
         margin: 4px 0;
         padding: 0;
+        width: 300px;
         list-style: none;
         border: 1px solid #c0c0c0;
         box-shadow: 0 3px 5px rgba(0, 0, 0, 0.175);
         z-index: 1000;
+
+        button {
+            height: auto;
+            white-space: normal;
+        }
 
         // Default link/button styling
         > li {
@@ -51,6 +82,8 @@
 
             > button, > a {
                 display: block;
+                width: 100%;
+                text-align: left;
                 padding: 5px 20px;
                 font-size: 0.9rem;
                 font-weight: bold;
