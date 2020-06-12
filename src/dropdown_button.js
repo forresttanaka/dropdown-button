@@ -260,7 +260,13 @@ export const Selected = ({ labels, execute, id, triggerVoice, css, inline, child
     return (
         <div className={`dropdown-button${css ? ` ${css}` : ''}`} style={inline ? { display: 'inline-flex' } : null}>
             <div className="dropdown-button__composite" onMouseEnter={actions.handleMouseEnter} onMouseLeave={actions.houseMouseLeave}>
-                <button className="dropdown-button__composite-execute" onClick={handleExecute} onKeyUp={actions.handleKey}>
+                <button
+                    className="dropdown-button__composite-execute"
+                    onClick={handleExecute}
+                    onKeyUp={actions.handleKey}
+                    onMouseEnter={actions.handleMouseEnter}
+                    onMouseLeave={actions.handleMouseLeave}
+                >
                     {labels[selection]}
                 </button>
                 <button
@@ -271,6 +277,8 @@ export const Selected = ({ labels, execute, id, triggerVoice, css, inline, child
                     aria-expanded={state.dropdownOpen}
                     aria-label={triggerVoice}
                     onKeyUp={actions.handleKey}
+                    onMouseEnter={actions.handleMouseEnter}
+                    onMouseLeave={actions.handleMouseLeave}
                 >
                     {icons.chevronDown}
                 </button>
